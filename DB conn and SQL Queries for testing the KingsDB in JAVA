@@ -1,0 +1,55 @@
+package KingsJavaApp;
+
+import java.sql.*;
+
+public class KingsAntiques {
+
+	public static void main(String[] args) throws SQLException
+	{
+		//Create the connection to the SQL Server database named Textbook
+		Connection con = DriverManager.getConnection(
+		        "jdbc:sqlserver://localhost:1433;database=KingsAntiques", "user", "password");
+		
+		//Insert a new record into Author table
+	    PreparedStatement updateInventory = con.prepareStatement("INSERT INTO Inventory1 (itemID, itemName, description, amtInStock) VALUES (197, 'Hockey Jersey', 'Hockey Jerseys from 1980', 5)");
+	         updateInventory.executeUpdate();
+	         
+	         //insert another record for testing purpose
+	         PreparedStatement nextupdateInventory = con.prepareStatement("INSERT INTO Inventory1 (itemID, itemName, description, amtInStock) VALUES (199, 'Hockey Stick', 'Bauer 2x team stick', 15)");
+	         nextupdateInventory.executeUpdate();
+	         
+	         //query that allows us to display specific data, here we display the descriptions from Inventory1 table
+	         PreparedStatement stmt2 = con.prepareStatement("SELECT description FROM Inventory1");
+	         ResultSet rslt2 = stmt2.executeQuery();
+	         
+	         //loop through result of SELECT query
+	         while (rslt2.next()) 
+	         {
+	           System.out.println(rslt2.getString("description"));
+	         }
+	         System.out.println();
+	         System.out.println("------show Inventory1 table contents with new entries------");
+	         System.out.println();
+	         
+	         //delete row in table
+	         PreparedStatement deleteInvItem = con.prepareStatement("DELETE FROM Inventory1 WHERE itemID = 197");
+	         deleteInvItem.executeUpdate();
+	         PreparedStatement deleteInvItem2 = con.prepareStatement("DELETE FROM Inventory1 WHERE itemID = 198");
+	         deleteInvItem2.executeUpdate();
+	       PreparedStatement deleteInvItem3 = con.prepareStatement("DELETE FROM Inventory1 WHERE itemID = 199");
+	         deleteInvItem3.executeUpdate();
+	         
+	         //select what you want to display from the table, here we select description
+	         PreparedStatement stmt3 = con.prepareStatement("SELECT description FROM Inventory1");
+	         ResultSet rslt3 = stmt3.executeQuery();
+	         
+	         //Loop through the result of the SELECT query
+	         while (rslt3.next()) 
+	         {
+	           System.out.println(rslt3.getString("description"));
+	         }
+	         System.out.println();
+	         System.out.println("------------------show Inventory1 table contents after deleting Hockey Jerseys ----------------");
+	         System.out.println();
+	}
+}
